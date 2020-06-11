@@ -1,0 +1,78 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>How to show instagram</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="css/normalize.css">
+
+</head>
+
+<body>
+
+
+ <div class="instagram">
+            <a href="https://instagram.com/pubudu_d/" target="_blank">
+			<img src="" id="instagram-profilr-img">
+                
+            <p id="biography"></p>
+            <div class="count"><p><span id="followedby"></span> followers</p><p><span id="follow"></span> following</p></div></a>
+      </div>
+	  
+  <script src="js/vendor/modernizr-3.8.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+function getInsprofile(id) {
+  
+  var regex = new RegExp(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/);
+  var validation = regex.test(id);
+
+  if(validation) {
+  
+    $.get("https://www.instagram.com/"+id+"/?__a=1")
+    .done(function(data) { 
+
+      // getting the url
+      var photoURL = data["graphql"]["user"]["profile_pic_url_hd"];
+      var biography = data["graphql"]["user"]["biography"];
+      var followedby = data["graphql"]["user"]['edge_followed_by']['count'];
+      
+      var follow = data["graphql"]['user']['edge_follow']['count'];
+
+      // update img element
+      $("#instagram-profilr-img").attr("src",photoURL);
+      $("#biography").text(biography);
+      $("#followedby").text(followedby);
+      $("#follow").text(follow);
+      
+     // alert(biography);
+     // alert(followedby);
+     // alert(follow);
+     
+     })
+    .fail(function() { 
+      alert('Your instagram username is invalid')
+    })
+  
+  } else {
+  
+    alert('Your instagram username is invalid')
+  }
+
+}
+
+$(document).ready(function() {
+    getInsprofile("pubudu_d");
+});
+  </script>
+</body>
+
+</html>
